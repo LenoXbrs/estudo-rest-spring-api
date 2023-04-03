@@ -1,6 +1,7 @@
 package br.com.lenox;
 
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,13 @@ public class PersonController {
 			@PathVariable(value ="id")String id) {
 		return personService.findById(id);
 	
+	}
+	
+	@GetMapping(
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Person> findAll() {
+		return personService.findAll();
+		
 	}
 	
 
