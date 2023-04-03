@@ -6,10 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.lenox.conversor.NumberConverter;
 import br.com.lenox.exceptions.UnsupportedMathOperationException;
+import br.com.lenox.math.operators.MathematicalOperation;
 
 @RestController
 public class MathController {
+	
 
 	
 	
@@ -23,11 +26,14 @@ public class MathController {
 			@PathVariable(value ="numberTwo")String numberTwo
 			) throws Exception {
 		
-		if(!isNumeric(numberOne) || !isNumeric(numberTwo)) {
+		if(!NumberConverter.isNumeric(numberOne) || !NumberConverter.isNumeric(numberTwo)) {
 			throw new UnsupportedMathOperationException("Please set a number");
 		}
-		return convertToDouble(numberOne) + convertToDouble(numberTwo);
+		
+		return MathematicalOperation.sum(numberOne, numberTwo);
+	
 	}
+	
 	
 	@GetMapping(value = "/div/{numberOne}/{numberTwo}")
 	public Double div(
@@ -35,43 +41,49 @@ public class MathController {
 			@PathVariable(value ="numberTwo")String numberTwo
 			) throws Exception {
 		
-		if(!isNumeric(numberOne) || !isNumeric(numberTwo)) {
+		if(!NumberConverter.isNumeric(numberOne) || !NumberConverter.isNumeric(numberTwo)) {
 			throw new UnsupportedMathOperationException("Please set a number");
 		}
-		return convertToDouble(numberOne) / convertToDouble(numberTwo);
+		return MathematicalOperation.div(numberOne, numberTwo);
 	}
+	
+	
 	@GetMapping(value = "/sub/{numberOne}/{numberTwo}")
 	public Double subtraction(
 			@PathVariable(value ="numberOne")String numberOne,
 			@PathVariable(value ="numberTwo")String numberTwo
 			) throws Exception {
 		
-		if(!isNumeric(numberOne) || !isNumeric(numberTwo)) {
+		if(!NumberConverter.isNumeric(numberOne) || !NumberConverter.isNumeric(numberTwo)) {
 			throw new UnsupportedMathOperationException("Please set a number");
 		}
-		return convertToDouble(numberOne) - convertToDouble(numberTwo);
+		return MathematicalOperation.subtraction(numberOne, numberTwo);
 	}
+	
+	
 	@GetMapping(value = "/mean/{numberOne}/{numberTwo}")
 	public Double mean(
 			@PathVariable(value ="numberOne")String numberOne,
 			@PathVariable(value ="numberTwo")String numberTwo
 			) throws Exception {
 		
-		if(!isNumeric(numberOne) || !isNumeric(numberTwo)) {
+		if(!NumberConverter.isNumeric(numberOne) || !NumberConverter.isNumeric(numberTwo)) {
 			throw new UnsupportedMathOperationException("Please set a number");
 		}
-		return (convertToDouble(numberOne) + convertToDouble(numberTwo))/2;
+		return MathematicalOperation.mean(numberOne, numberTwo);
 	}
+	
+	
 	@GetMapping(value = "/squareRoot/{numberOne}")
 	public Double squareRoot(
 			@PathVariable(value ="numberOne")String numberOne
 		
 			) throws Exception {
 		
-		if(!isNumeric(numberOne) ) {
+		if(!NumberConverter.isNumeric(numberOne)) {
 			throw new UnsupportedMathOperationException("Please set a number");
 		}
-		return (Math.sqrt(convertToDouble(numberOne)) );
+		return MathematicalOperation.squareRoot(numberOne);
 	}
 	
 	
@@ -81,22 +93,7 @@ public class MathController {
 
 
 
-	private Double convertToDouble(String strNumber) {
-		if(strNumber == null)return 0D;
-		String number = strNumber.replaceAll(",", ".");
-		if(isNumeric(number)) return Double.parseDouble(number);
-		return 0D;
-		
-	}
-
-
-
-	private boolean isNumeric(String strNumber) {
-		if(strNumber == null)return false;
-		String number = strNumber.replaceAll(",", ".");
-		return number.matches("[-+]?[0-9]*\\.?[0-9]+");
-		
-	}
+	
 	
 	
 	
