@@ -57,11 +57,11 @@ public class PersonController {
 		return personService.update(person);
 		
 	}
-	@DeleteMapping(value = "/{id}",
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public Person delete(
+	
+	@DeleteMapping(value = "/{id}")
+	public void delete(
 			@PathVariable(value ="id")String id) {
-		return personService.findById(id);
+		 	personService.delete(id);
 	
 	}
 	
