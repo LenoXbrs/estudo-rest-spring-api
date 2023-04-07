@@ -19,7 +19,7 @@ public class PersonServices {
 		logger.info("Fiding all Persons!");
 		List<Person> persons = new ArrayList<>();
 		
-		for(int i =0; i < 8;i++) {
+		for(int i = 0; i < 8; i++) {
 			Person person = mockPerson(i);
 			persons.add(person);
 		}
